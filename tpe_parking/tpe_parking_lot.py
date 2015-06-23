@@ -17,6 +17,7 @@ DB_DIR = 'db'
 PARKING_LOT_DB_FILE = 'alldescriptions.json'
 AVAILABLE_PARKING_PLACE_DB_FILE = 'allavailable.json'
 
+
 class ParkingLotDb:
     UPDATE_URL = 'http://opendata.dot.taipei.gov.tw/opendata/'
     def __init__(self):
@@ -47,7 +48,6 @@ class ParkingLotDb:
             self._jsAvailableParkingPlace = json.load(fp)
             fp.close()
 
-
         except OSError as err:
             print("OS error: {0}".format(err))
         except:
@@ -73,6 +73,11 @@ class ParkingLotDb:
                     yield park
             else:
                 logger.warning('No location info for ' + park['name'])
+
+    def find_available_parking_space(self, park_id):
+        for park in self._jsAvailableParkingPlace['data']['park']:
+            if park['id'] == park_id:
+                return park
                 
 
 class ParkingLotInfoProvider:
@@ -88,4 +93,7 @@ class ParkingLotInfoProvider:
 
     def find_parking_lot_by_coordinate(self, location, within_meters):
         return self._db.find_parking_lot_by_coordinate(location, within_meters)
+
+    def find_available_parking_space(self, park_id):
+        return self._db.find_available_parking_space(park_id)
 
