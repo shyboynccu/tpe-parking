@@ -1,0 +1,17 @@
+<!doctype html>
+<head><title>OpenShift: Leaflet, MongoDB, Python. Jinja2</title>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+</head>
+<div id='map' style='width: 900px; height: 350px'></div>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+<script>
+var map = L.map('map').setView({{ coord["pos"] }}, 13);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery Â© <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'shyboynccu.4cc9a4a3',
+    accessToken: 'pk.eyJ1Ijoic2h5Ym95bmNjdSIsImEiOiJiNDM5NTU1NzgyOTY3N2UzZDllYWY1ZTJkNWU4NTY2MCJ9.mBrRqkDo96Lq5vKInNShCQ'
+}).addTo(map);
+var marker = L.marker({{ coord["pos"] }}).addTo(map)
+marker.bindPopup('<b>Hello {{ coord["pos"] }}').openPopup();
+</script>
